@@ -27,7 +27,7 @@
             <h6 class="text-muted">2000rd</h6>
         </div>
         <div class="col-md-3 text-center">
-            <h6>beet</h6>
+            <h6>kurogamichandayo</h6>
             <h3>1000000</h3>
             <h6 class="text-muted">10rd</h6>
         </div>
