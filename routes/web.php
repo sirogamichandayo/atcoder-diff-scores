@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,5 +11,6 @@
 */
 
 Route::get('/', 'PagesController@home') -> name('home');
+Route::post('/', 'PagesController@show') -> name('show');
 Route::get('about', 'PagesController@about') -> name('about');
 Route::get('contact', 'PagesController@contact') -> name('contact');

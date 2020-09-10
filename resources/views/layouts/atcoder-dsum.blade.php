@@ -8,6 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    
     <title>@yield('title')</title>
 
     <!-- Bootstrap core CSS -->
@@ -21,10 +22,16 @@
     <!-- Custom styles for this template -->
     <link href="{{ asset('css/landing-page.min.css') }}" rel="stylesheet">
     
-</head>
+    </head>
     <body>
-        @include('components.navbar')
-        <div class="content" style="width: 100%; max-width: 90%;padding-left: 15px;margin-left: auto;margin-top: 45px;margin-bottom: 45px;margin-right: auto;">
+        <div class="stricky-top">
+            @section('stricky-top')
+            @include('components.navbar')
+            @show
+        </div>
+        <div class="content" style="width: 100%; max-width: 
+            90%;padding-left: 15px;margin-left: auto;
+            margin-top: 45px;margin-bottom: 45px;margin-right: auto;">
             @yield('content')
         </div>
 
