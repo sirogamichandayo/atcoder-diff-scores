@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 class PagesController extends Controller
 {
@@ -20,11 +21,14 @@ class PagesController extends Controller
     public function show(Request $request)
     {
         $ids = $request->ids;
-        $client = new \GuzzleHttp\Client;
-        $response = $client->request(
-            'GET',
-            'https://kenkoooo.com/atcoder/resources/problem-models.json'
-        );
+        
+        $client = new Client([
+            'timeout' => 2.0,
+        ]);
+        $res = $client->request("GET", 'https://kenkoooo.com/atcoder/resources/problem-models.json',[
+            'auto' => ['user', 'pass']
+        ]);
+
         $json = $response->getBody()->getContents();
 
         \Log::info(gettype($json));
