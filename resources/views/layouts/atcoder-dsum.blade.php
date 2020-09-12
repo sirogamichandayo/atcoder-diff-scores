@@ -13,9 +13,9 @@
 
     <!-- Bootstrap core CSS -->
     @if(app('env') == 'production')
-        <link href="{{ secure_asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ secure_asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
     @else
-        <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
     @endif
 
 
@@ -37,7 +37,6 @@
         <link href="{{ asset('css/landing-page.min.css') }}" rel="stylesheet">    
     @endif
 
-    
     </head>
     <body>
         <div class="stricky-top">
