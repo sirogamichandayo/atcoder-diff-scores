@@ -39,7 +39,6 @@
     </head>
     <body>
         <div class="stricky-top">
-            <p>{{ app('env') }}</p>
             @section('stricky-top')
             @include('components.navbar')
             @show
