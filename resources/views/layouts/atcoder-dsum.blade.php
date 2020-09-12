@@ -12,12 +12,11 @@
     <title>@yield('title')</title>
 
     <!-- Bootstrap core CSS -->
-    @if(app('env') == 'production')
-        <link href="{{ secure_asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
-    @else
-        <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
-    @endif
 
+        <link href="{{ secure_asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+
+    {{--      <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">  --}}
+    
 
     <!-- Custom fonts for this template -->
     @if(app('env') == 'production')
