@@ -10,10 +10,10 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    @if(app('env') == 'production')
-        <script src="{{ secure_asset('js/app.js') }}" defer></script>
-    @else
+    @if(app('env') == 'local')
         <script src="{{ asset('js/app.js') }}" defer></script>
+    @else
+        <script src="{{ secure_asset('js/app.js') }}" defer></script>
     @endif
 
     <!-- Fonts -->
@@ -21,10 +21,10 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    @if(app('env') == 'production')
-        <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
-    @else
+    @if(app('env') == 'local')
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @else
+        <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
     @endif
 
 </head>

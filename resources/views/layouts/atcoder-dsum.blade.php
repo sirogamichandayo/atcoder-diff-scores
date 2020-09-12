@@ -12,14 +12,14 @@
     <title>@yield('title')</title>
 
     <!-- Bootstrap core CSS -->
-
+    @if(app('env') == 'local')
+        <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+    @else
         <link href="{{ secure_asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
-
-    {{--      <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">  --}}
+    @endif
     
-
     <!-- Custom fonts for this template -->
-    @if(app('env') == 'production')
+    @if(app('env') == 'local')
         <link href="{{ secure_asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
         <link href="{{ secure_asset('vendor/simple-line-icons/css/simple-line-icons.css') }}" rel="stylesheet" type="text/css">
     @else
@@ -30,15 +30,16 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template -->
-    @if(app('env') == 'production')
-        <link href="{{ secure_asset('css/landing-page.min.css') }}" rel="stylesheet">
+    @if(app('env') == 'local')
+        <link href="{{ asset('css/landing-page.min.css') }}" rel="stylesheet">
     @else
-        <link href="{{ asset('css/landing-page.min.css') }}" rel="stylesheet">    
+        <link href="{{ secure_asset('css/landing-page.min.css') }}" rel="stylesheet">    
     @endif
 
     </head>
     <body>
         <div class="stricky-top">
+            <p>{{ app('env') }}</p>
             @section('stricky-top')
             @include('components.navbar')
             @show
