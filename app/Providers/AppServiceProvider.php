@@ -21,10 +21,10 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(UrlGenerator $url)
     {
         //
         if ($this->app->environment() === 'production') 
-            \URL::forceScheme('https');
+            $url->forceScheme('https');
         }
 }
