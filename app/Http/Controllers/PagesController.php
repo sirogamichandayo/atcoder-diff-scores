@@ -151,7 +151,7 @@ class PagesController extends Controller
         {
             $graph_data_inner = [];
 
-            $graph_data_inner["label"] = $id . '( diff )';
+            $graph_data_inner["label"] = $id . '(diff)';
             $graph_data_inner["fill"] = false;
             $graph_data_inner["borderWidth"] = 2;
             $graph_data_inner["pointRadius"] = 0;
@@ -179,7 +179,7 @@ class PagesController extends Controller
         {
             $graph_data_inner = [];
 
-            $graph_data_inner["label"] = $id . '( rate )';
+            $graph_data_inner["label"] = $id . '(rate)';
             $graph_data_inner["fill"] = false;
             $graph_data_inner["borderWidth"] = 2;
             $graph_data_inner["pointRadius"] = 3;

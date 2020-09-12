@@ -50,13 +50,12 @@
             var type = 'line';
           
             var options = {
-                /* plugins: {
+                plugins: {
                     scheme: 'brewer.Paired12'
-                }, */
+                },
                 scales: {
                     xAxes : [{
                         type: 'time',
-                        min: 0,
                     }],
                     yAxes : [{
                         id: 'rate',
