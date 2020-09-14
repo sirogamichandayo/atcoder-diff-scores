@@ -27,7 +27,9 @@
         <div class="col-md-3 text-center">    
             <h6>{{ $d['id'] }}</h6>
             <h3>{{ $d['sum'] }}</h3>
-            <h6 class="text-muted">{{ $d['rank'] }} th</h6>
+            <h6 class="text-muted">
+                {{ $d['rank'] }}
+            </h6>
         </div>
         @endforeach
     </div>
@@ -38,9 +40,10 @@
     <h1>Diff Graphs</h1>
     <hr size=1>
     <!-- ChartJS -->
+    <canvas id="chart"></canvas>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
     <script src="https://unpkg.com/chartjs-plugin-colorschemes"></script>
-    <canvas id="chart"></canvas>
+
     <script>
         (function() {
             'use strict';
@@ -48,7 +51,7 @@
             var graph_data = @json($graph_data);
             console.log(graph_data);
             var type = 'line';
-          
+        
             var options = {
                 plugins: {
                     scheme: 'brewer.Paired12'
@@ -60,9 +63,21 @@
                     yAxes : [{
                         id: 'rate',
                         position: 'right',
+                        beginAtZero: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Rating',
+                            fontSize: 15,
+                        }
                     }, {
                         id: 'diff',
-                        position: 'left',    
+                        position: 'left', 
+                        beginAtZero: true,   
+                        scaleLabel: {
+                            display: true,    
+                            labelString: 'Difficulty Sum',
+                            fontSize: 15,
+                        }
                     }] 
                 }
             };

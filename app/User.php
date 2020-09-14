@@ -2,38 +2,70 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
+use App\Http\Controllers\AtCoderApiController;
 
-class User extends Authenticatable
+class User extends Model
 {
-    use Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    public $timestamps = false;    
+    protected $primaryKey = 'user_id';
+    protected $keyType = 'string';
+    public $incrementing = false;    
     protected $fillable = [
-        'name', 'email', 'password',
+        'user_id',
+        'diff_sum',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    public static function get_diff_sum_rank($diff_sum)
+    {
+        return self::where('diff_sum', '>', $diff_sum)->count()+1;
+    }
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public static function update_diff_sum()
+    {
+        // diff_sum_by_id := [user_id => diff_sum, ...];
+        echo 'Accessing the api...' . "\n";
+        $atcoder_api_con = new AtCoderApiController();
+
+        if (\App::environment('local'))                
+        {
+            list($submissions, $diff_of_problem) = 
+                $atcoder_api_con->get_test_data_for_update_diff_sum();
+            logger($diff_of_problem);
+            logger($submissions);
+        }
+        else
+        {
+            $user_list = $atcoder_api_con->get_user_list();
+            $diff_of_problem = $atcoder_api_con->get_diff_of_problems();
+        }
+
+                        
+        foreach($user_list as $user)    
+        {
+            $user_id = $user['user_id'];
+            echo "   Getting submission...";
+            echo "   Id = " . $user_id;
+            $submissions = $atcoder_api_con->get_user_submission($user_id);
+            
+            $ac_submissions = array_filter($submissions, function ($submission)
+            {
+                return $submission['result'] === 'AC';
+            });
+
+            // get unique solved problem id;                    
+            $unique_solved_problems = [];
+            foreach($ac_submissions as $submission)
+                $unique_solved_problems[$submission['problem_id']] = null;
+
+            $unique_solved_problems = array_keys($unique_solved_problems);
+            echo "   sizeof problems" . sizeof($unique_solved_problems) . "\n";
+            $diff_sum = 0;
+            foreach ($unique_solved_problems as $problem_id)                    
+                $diff_sum += $diff_of_problem[$problem_id]['difficulty'];
+
+            echo "   diff_sum" . $diff_sum . "\n";
+            self::create(['user_id' => $user_id, 'diff_sum' => $diff_sum]);
+        }
+    }
 }

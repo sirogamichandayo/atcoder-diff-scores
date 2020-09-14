@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\AtCoderApiController;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use App\User;
 
 class PagesController extends Controller
 {
@@ -48,7 +49,8 @@ class PagesController extends Controller
 
     public function ranking()
     {
-        return view('pages.ranking');
+        $users = User::orderBy('diff_sum', 'desc')->paginate(10);
+        return view('pages.ranking', ['posts' => $users]);
     }
 
     public function contact()
@@ -86,7 +88,7 @@ class PagesController extends Controller
                 {
                     return $submission['result'] == 'AC';
                 });
-        
+                
                 $submission_map = []; // [problem_id => first_ac_submission, ...]
                 foreach($ac_submissions as $submission)
                 {
@@ -120,9 +122,11 @@ class PagesController extends Controller
                 array_multisort(array_map("strtotime", array_keys($sum_by_date)),
                                 SORT_ASC, $sum_by_date);
 
-                // get rank from API
-                $rank = 100;                                
+                // get rank from DB
+                $user = User::find($id);
+                $rank = User::get_diff_sum_rank($sum) . ' th';
 
+                
                 $contests_info = $atcoder_api_con->get_contests_each_user($id);
                 $contests_info = array_filter($contests_info, function($contest)
                 {
@@ -153,8 +157,8 @@ class PagesController extends Controller
 
             $graph_data_inner["label"] = $id . '(diff)';
             $graph_data_inner["fill"] = false;
-            $graph_data_inner["borderWidth"] = 2;
-            $graph_data_inner["pointRadius"] = 0;
+            $graph_data_inner["borderWidth"] = 1;
+            $graph_data_inner["pointRadius"] = 1;
             $graph_data_inner["lineTension"] = 0;
             $graph_data_inner["yAxisID"] = 'diff';
 
