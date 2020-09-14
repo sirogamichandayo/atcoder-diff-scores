@@ -6,12 +6,12 @@
     @parent
     {{-- search bar --}}
     <nav class="border-bottom navbar navbar-expand-md navbar-light bg-light">
-        <form class="form-inline" method="POST" action="{{route('user')}}">
+        <form class="form-inline" method="POST" action="/">
             @csrf
             <input class="form-control mr-sm-2" type="text" 
                    value="{{$raw_ids}}" placeholder="AtCoder ID, ..." 
                    aria-label="Search" name="raw_ids">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <input class="btn btn-outline-success my-2 my-sm-0" type="submit"></input>
         </form>
     </nav>
 @endsection
