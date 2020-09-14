@@ -15,7 +15,7 @@ if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
 }
 
 Route::get('/', 'PagesController@home') -> name('home');
-Route::post('/', 'PagesController@user') -> name('user');
-Route::get('ranking', 'PagesController@ranking') -> name('ranking');
-Route::get('about', 'PagesController@about') -> name('about');
-Route::get('contact', 'PagesController@contact') -> name('contact');
+Route::post('/user', 'PagesController@user') -> name('user');
+Route::get('/ranking', 'PagesController@ranking') -> name('ranking');
+Route::get('/about', 'PagesController@about') -> name('about');
+Route::get('/contact', 'PagesController@contact') -> name('contact');

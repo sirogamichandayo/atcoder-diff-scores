@@ -20,8 +20,6 @@ class PagesController extends Controller
     public function user(Request $request)
     {
         $raw_ids = $request->raw_ids;
-        if ($raw_ids == '')
-            return redirect(route('home'));
         $id_array = preg_split("/[\s,]+/", $raw_ids);
         $id_array = array_unique($id_array);
         
