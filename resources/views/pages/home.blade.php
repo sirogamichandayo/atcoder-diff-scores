@@ -7,7 +7,7 @@
     {{-- search bar --}}
     <nav class="border-bottom navbar navbar-expand-md navbar-light bg-light">
         <form class="form-inline" method="POST" action="{{route('user')}}">
-            {@csrf}
+            @csrf
             <input class="form-control mr-sm-2" type="text" 
                    value="{{$raw_ids}}" placeholder="AtCoder ID, ..." 
                    aria-label="Search" name="raw_ids">
