@@ -33,7 +33,6 @@ class UpdateDiffSum implements ShouldQueue
     public function handle()
     {
         //
-        echo "test";
         User::update_diff_sum_by_id($this->user_id);
     }
 }

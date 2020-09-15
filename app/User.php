@@ -61,10 +61,8 @@ class User extends Model
         echo "AC  : " . sizeof($unique_solved_problems) . "\n";
         echo "sum : " . $diff_sum . "\n\n";
  
-        $tmp = self::find($user_id);
-        if (!$tmp)        
-            self::create(['user_id' => $user_id, 'diff_sum' => $diff_sum]);
-        else
-            $tmp->update(['diff_sum' => $diff_sum]);
+        $user = self::firstOrNew(['user_id' => $user_id]);
+        $user->diff_sum = $diff_sum;
+        $user->save();
     }
 }

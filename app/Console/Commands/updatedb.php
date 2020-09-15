@@ -44,11 +44,10 @@ class updatedb extends Command
         echo "Accessing api ...";
         $con = new AtCoderApiController();
         $user_list = $con->get_user_list();
-        /* foreach ($user_list as $user_id)
+        foreach ($user_list as $user_id)
         {
             echo "id : " .  $user_id . "\n";
             UpdateDiffSum::dispatch($user_id);
-        } */
-        User::update_diff_sum_by_id($user_list[0]);
+        }
     }
 }
