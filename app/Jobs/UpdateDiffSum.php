@@ -34,6 +34,6 @@ class UpdateDiffSum implements ShouldQueue
     {
         //
         echo "test";
-        /* User::update_diff_sum_by_id($this->user_id); */
+        User::update_diff_sum_by_id($this->user_id);
     }
 }

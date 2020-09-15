@@ -8,11 +8,11 @@ use App\store_updateddb_index;
 
 class User extends Model
 {
+    protected $primaryKey = 'user_id';
     public $timestamps = false;    
     public $incrementing = false;
-    protected $primaryKey = 'user_id';
     protected $keyType = 'string';
-        protected $fillable = [
+    protected $fillable = [
         'user_id',
         'diff_sum',
     ];
@@ -61,6 +61,10 @@ class User extends Model
         echo "AC  : " . sizeof($unique_solved_problems) . "\n";
         echo "sum : " . $diff_sum . "\n\n";
  
-        self::create(['user_id' => $user_id, 'diff_sum' => $diff_sum]);
+        $tmp = self::find($user_id);
+        if (!$tmp)        
+            self::create(['user_id' => $user_id, 'diff_sum' => $diff_sum]);
+        else
+            $tmp->update(['diff_sum' => $diff_sum]);
     }
 }
