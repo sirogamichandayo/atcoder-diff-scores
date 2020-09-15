@@ -47,8 +47,9 @@ class updatedb extends Command
         $user_list = $con->get_user_list();        
 
         foreach ($user_list as $user_id)
+        {
             echo "id : " .  $user_id . "\n";
-            UpdateDiffSum::dispatch($user_id, $i);
+            UpdateDiffSum::dispatch($user_id);
         }
     }
 }
