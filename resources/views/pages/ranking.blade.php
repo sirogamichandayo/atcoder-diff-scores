@@ -6,7 +6,7 @@
     <h1>Ranking</h1>
     <hr size=1>
 
-    <p>(2020/9/15更新)</p>
+    <p>(大体一週間ぐらいかけて更新してます。気長にお待ちを...)</p>
     <div class="d-flex">
         {{ $posts->links() }}    
     </div>
