@@ -43,7 +43,7 @@ class User extends Model
         }
 
         $size = sizeof($user_list);
-        $index = store_updateddb_index::orderBy('updated_at', 'desc')->first();
+        $index = store_updateddb_index::orderBy('id', 'desc')->first();
         $i = (is_null($index)) ? 0 : $index['index'];
         if ($i < 0 || $i >= $size) $i = 0;
                 
