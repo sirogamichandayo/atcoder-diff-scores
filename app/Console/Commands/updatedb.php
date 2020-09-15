@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\UpdateDiffSum;
+use App\Http\Controllers\AtCoderApiController;
 use Illuminate\Console\Command;
 use App\User;
 
@@ -20,7 +22,7 @@ class updatedb extends Command
      *
      * @var string
      */
-    protected $description = 'Update database';
+    protected $description = 'Create jobs to update the database.';
 
     /**
      * Create a new command instance.
@@ -38,7 +40,14 @@ class updatedb extends Command
      * @return mixed
      */
     public function handle()
-    {
-        User::update_diff_sum();
+    {   
+        echo "Accessing api ...";
+        $con = new AtCoderApiController();
+        $user_list = $con->get_user_list();
+        foreach ($user_list as $user_id)
+        {
+            echo "id : " .  $user_id . "\n";
+            UpdateDiffSum::dispatch($user_id);
+        }
     }
 }

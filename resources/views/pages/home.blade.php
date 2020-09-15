@@ -6,7 +6,7 @@
     @parent
     {{-- search bar --}}
     <nav class="border-bottom navbar navbar-expand-md navbar-light bg-light">
-        <form class="form-inline" method="POST" action="{{ route('show') }}">
+        <form class="form-inline", style="padding-left: 10px" method="POST" action="{{ route('show') }}">
             @csrf
             <input class="form-control mr-sm-2" type="text" 
                    value="{{$raw_ids}}" placeholder="AtCoder ID, ..." 

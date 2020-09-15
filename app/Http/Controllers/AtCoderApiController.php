@@ -35,8 +35,12 @@ class AtCoderApiController extends Controller
             'headers' => ['Accept-Encoding' => 'gzip'],
             'delay' => AtCoderApiController::DELAY,
         ]);
-
-        return  json_decode($json->getBody(), true);
+        $json = json_decode($json->getBody(), true);
+        $res = [];
+        foreach($json as $data)
+            $res[] = $data['user_id'];
+        
+        return  $res;
     }
     
     public function get_test_data_for_update_diff_sum()
