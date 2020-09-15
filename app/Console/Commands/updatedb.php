@@ -45,8 +45,6 @@ class updatedb extends Command
     {   
         echo "Accessing api ...\n";
         $over_user = Overuser::orderby('id', 'desc')->first();
-        var_dump($over_user);
-        var_dump($over_user['user_id']);
         
         $con = new AtCoderApiController();
         $user_list = $con->get_user_list();        
@@ -64,7 +62,7 @@ class updatedb extends Command
                 }
             }
         }
-        var_dump($first);
+        echo "first : " . $first . "\n";
 
         for ($i = 0; $i < 30000; ++$i)
         {
