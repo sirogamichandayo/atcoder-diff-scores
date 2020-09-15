@@ -38,6 +38,7 @@ class User extends Model
         {
             $user_list = $atcoder_api_con->get_user_list();
             $diff_of_problem = $atcoder_api_con->get_diff_of_problems();
+            echo 'user size : ' . sizeof($user_list) . "\n";
         }
 
                         

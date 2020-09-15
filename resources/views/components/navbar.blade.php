@@ -3,7 +3,6 @@
         AtCoder <span style="font-weight: bold">Diff Scores</span></a>
     <ul class="navbar-nav">
         <a class="nav-item nav-link" href="{{route('ranking')}}">ランキング</a>    
-        <a class="nav-item nav-link" href="{{route('about')}}">このページについて</a>
         <a class="nav-item nav-link" href="{{route('contact')}}">問い合わせ</a>
     </ul>
 </nav>

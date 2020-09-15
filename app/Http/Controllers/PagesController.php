@@ -55,12 +55,6 @@ class PagesController extends Controller
     {
         return view('pages.contact');
     }
-
-    public function about()    
-    {
-        return view('pages.about');
-    }    
-
 //////////////////////////////
 // private
 /////////////////////////////    
@@ -156,7 +150,7 @@ class PagesController extends Controller
             $graph_data_inner["label"] = $id . '(diff)';
             $graph_data_inner["fill"] = false;
             $graph_data_inner["borderWidth"] = 1;
-            $graph_data_inner["pointRadius"] = 1;
+            $graph_data_inner["pointRadius"] = 2;
             $graph_data_inner["lineTension"] = 0;
             $graph_data_inner["yAxisID"] = 'diff';
 

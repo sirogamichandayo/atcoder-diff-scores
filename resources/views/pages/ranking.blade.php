@@ -6,6 +6,7 @@
     <h1>Ranking</h1>
     <hr size=1>
 
+    <p>(2020/9/15更新)</p>
     <div class="d-flex">
         {{ $posts->links() }}    
     </div>

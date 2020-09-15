@@ -6,19 +6,18 @@
     @parent
     {{-- search bar --}}
     <nav class="border-bottom navbar navbar-expand-md navbar-light bg-light">
-        <form class="form-inline" method="POST" action="/">
+        <form class="form-inline" method="POST" action="{{ route('show') }}">
             @csrf
             <input class="form-control mr-sm-2" type="text" 
                    value="{{$raw_ids}}" placeholder="AtCoder ID, ..." 
                    aria-label="Search" name="raw_ids">
-            <input class="btn btn-outline-success my-2 my-sm-0" type="submit"></input>
+            <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search"></input>
         </form>
     </nav>
 @endsection
 
 @section('content')
 
-    @isset($sum_data)
     <!-- Sum -->
     <h1>Diff Sums</h1>
     <hr size=1>
@@ -33,9 +32,8 @@
         </div>
         @endforeach
     </div>
-    @endisset
+
         
-    @isset($graph_data)    
     <!-- Graphs -->
     <h1>Diff Graphs</h1>
     <hr size=1>
@@ -53,30 +51,44 @@
             var type = 'line';
         
             var options = {
+                legend: {
+                    labels: {
+                        fontSize: 18,
+                    },
+                },
                 plugins: {
                     scheme: 'brewer.Paired12'
                 },
                 scales: {
                     xAxes : [{
                         type: 'time',
+                        ticks: {
+                            fontSize: 15
+                        }                        
                     }],
                     yAxes : [{
                         id: 'rate',
                         position: 'right',
-                        beginAtZero: true,
                         scaleLabel: {
                             display: true,
                             labelString: 'Rating',
-                            fontSize: 15,
+                            fontSize: 18,
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            min: 0,
                         }
                     }, {
                         id: 'diff',
                         position: 'left', 
-                        beginAtZero: true,   
                         scaleLabel: {
                             display: true,    
                             labelString: 'Difficulty Sum',
-                            fontSize: 15,
+                            fontSize: 18,
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            min: 0,
                         }
                     }] 
                 }
@@ -90,5 +102,5 @@
             });
         })();
     </script>
-    @endisset
+
 @endsection
