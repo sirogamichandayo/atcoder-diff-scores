@@ -4,14 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\AtCoderApiController;
+use App\store_updateddb_index;
 
 class User extends Model
 {
     public $timestamps = false;    
+    public $incrementing = false;
     protected $primaryKey = 'user_id';
     protected $keyType = 'string';
-    public $incrementing = false;    
-    protected $fillable = [
+        protected $fillable = [
         'user_id',
         'diff_sum',
     ];
@@ -41,10 +42,15 @@ class User extends Model
             echo 'user size : ' . sizeof($user_list) . "\n";
         }
 
-                        
-        foreach($user_list as $user)    
+        $size = sizeof($user_list);
+        $index = store_updateddb_index::orderBy('updated_at', 'desc')->first();
+        $i = (is_null($index)) ? 0 : $index['index'];
+        if ($i < 0 || $i >= $size) $i = 0;
+                
+        for (; $i < $size; ++$i)
         {
-            $user_id = $user['user_id'];
+            echo "i : " . $i . "\n";    
+            $user_id = $user_list[$i]['user_id'];
             echo "   Getting submission...";
             echo "   Id = " . $user_id;
             $submissions = $atcoder_api_con->get_user_submission($user_id);
@@ -66,7 +72,9 @@ class User extends Model
                 $diff_sum += $diff_of_problem[$problem_id]['difficulty'];
 
             echo "   diff_sum" . $diff_sum . "\n";
+
             self::create(['user_id' => $user_id, 'diff_sum' => $diff_sum]);
+            store_updateddb_index::create(['index' => $i]);
         }
     }
 }
