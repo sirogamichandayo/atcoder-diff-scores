@@ -43,32 +43,10 @@ class updatedb extends Command
      */
     public function handle()
     {   
-        echo "Accessing api ...\n";
-        $over_user = Overuser::orderby('id', 'desc')->first();
-        
         $con = new AtCoderApiController();
         $user_list = $con->get_user_list();        
-        $size = sizeof($user_list);
 
-        $first = 0;        
-        if ($over_user) 
-        {
-            for (; $first < $size; ++$first)
-            {
-                if ($over_user['user_id'] == $user_list[$first])
-                {
-                    ++$first;
-                    break;    
-                }
-            }
-        }
-        echo "first : " . $first . "\n";
-
-        for ($i = 0; $i < 30000; ++$i)
-        {
-            $ind = ($first + $i) % $size;
-            $user_id = $user_list[$ind];
-
+        foreach ($user_list as $user_id)
             echo "id : " .  $user_id . "\n";
             UpdateDiffSum::dispatch($user_id, $i);
         }

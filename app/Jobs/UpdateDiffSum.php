@@ -15,16 +15,14 @@ class UpdateDiffSum implements ShouldQueue
 
     public $tries = 5;    
     public $user_id;
-    public $ind;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user_id, $ind)
+    public function __construct($user_id)
     {
         $this->user_id = $user_id;
-        $this->ind = $ind;
     }
 
     /**

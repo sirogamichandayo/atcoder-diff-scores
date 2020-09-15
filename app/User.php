@@ -35,7 +35,7 @@ class User extends Model
             self::update_diff_sum_by_id($user_id);
     }
 
-    public static function update_diff_sum_by_id($user_id, $for_stored_over_user_id)
+    public static function update_diff_sum_by_id($user_id)
     {
         $atcoder_api_con = new AtCoderApiController();
         $diff_of_problem = $atcoder_api_con->get_diff_of_problems();
@@ -61,20 +61,11 @@ class User extends Model
         echo "AC  : " . sizeof($unique_solved_problems) . "\n";
         echo "sum : " . $diff_sum . "\n\n";
  
-        if ($diff_sum >= 5000)        
+        if ($diff_sum >= 1000)        
         {
             $user = self::firstOrNew(['user_id' => $user_id]);
             $user->diff_sum = $diff_sum;
             $user->save();
         }
-
-        if ($for_stored_over_user_id % 300 == 0)        
-        {
-            Overuser::create(['user_id' => $user_id]);
-            echo "------------\n";
-            echo "save useid ...\n";
-            echo "user_id : " . $user_id . "\n\n";
-        }
-
     }
 }
