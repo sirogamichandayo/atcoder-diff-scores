@@ -13,6 +13,7 @@ class UpdateDiffSum implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $tries = 5;    
     public $user_id;
     /**
      * Create a new job instance.
