@@ -9,4 +9,7 @@
         <a href='https://twitter.com/sirogamichan1'>@sirogamichan1</a>
     )までお伝えください。
     </p>
+    <p>
+    ランキングに関しては、データベースの更新が終わるまでかなり高めの順位が出ます。
+    </p>
 @endsection

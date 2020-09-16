@@ -6,10 +6,10 @@
     @parent
     {{-- search bar --}}
     <nav class="border-bottom navbar navbar-expand-md navbar-light bg-light">
-        <form class="form-inline", style="padding-left: 10px" method="POST" action="{{ route('show') }}">
+        <form class="form-inline", style="padding-left: 10px" method="POST" action="{{ route('home') }}">
             @csrf
             <input class="form-control mr-sm-2" type="text" 
-                   value="{{$raw_ids}}" placeholder="AtCoder ID, ..." 
+                   value="{{old('raw_ids')}}" placeholder="AtCoder ID, ..." 
                    aria-label="Search" name="raw_ids">
             <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search"></input>
         </form>
@@ -23,6 +23,7 @@
     <hr size=1>
     <div class="row">
         @foreach($sum_data as $d)
+        @if ($d['id'] != '')
         <div class="col-md-3 text-center">    
             <h6>{{ $d['id'] }}</h6>
             <h3>{{ $d['sum'] }}</h3>
@@ -30,6 +31,7 @@
                 {{ $d['rank'] }}
             </h6>
         </div>
+        @endif
         @endforeach
     </div>
 

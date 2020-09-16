@@ -4,22 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\AtCoderApiController;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use GuzzleHttp\Client;
 use App\User;
 
 class PagesController extends Controller
 {
-    public function home()
+    public function home(Request $request)
     {
-        $data = [
-            'raw_ids' => '',
-        ];
-        return view('pages.home', $data);
-    }
+        if ($request->has('raw_ids'))
+        {
+            $raw_ids = $request->raw_ids;
+        }
 
-    public function user(Request $request)
-    {
-        $raw_ids = $request->raw_ids;
+        if ($request->hasCookie('raw_ids') && $raw_ids == '')
+            $raw_ids = $request->cookie('raw_ids');
+
         $id_array = preg_split("/[\s,]+/", $raw_ids);
         $id_array = array_unique($id_array);
         
@@ -36,18 +36,31 @@ class PagesController extends Controller
         $graph_data = [];
         for ($i = 0; $i < sizeof($graph_diff_data); $i++)
             array_push($graph_data, $graph_rate_data[$i], $graph_diff_data[$i]);
-        
+
+        $request->session()->flash('_old_input', ['raw_ids' => $raw_ids]);            
         $data = [
-            'raw_ids'=> $raw_ids,
             'sum_data' => $user_diff_info,
             'graph_data' => ['datasets' => $graph_data],
         ];
-        return view('pages.home', $data);
+
+        $response = new Response(view('pages.home', $data));
+        $response->cookie('raw_ids', $raw_ids, 100);
+        return $response;
     }
 
-    public function ranking()
+    public function ranking(Request $request)
     {
-        $users = User::orderBy('diff_sum', 'desc')->paginate(10);
+        $id = $request->id;
+        if ($request->has('id') && $id != "")
+        {
+            $users = User::where('user_id', 'ilike', '%'.$id.'%')->paginate(10);
+        }
+        else
+        {
+            $users = User::orderBy('diff_sum', 'desc')->paginate(10);
+        }
+        $request->session()->flash('_old_input', ['id' => $id]);
+
         return view('pages.ranking', ['posts' => $users]);
     }
 
@@ -115,9 +128,7 @@ class PagesController extends Controller
                                 SORT_ASC, $sum_by_date);
 
                 // get rank from DB
-                $user = User::find($id);
-                $rank = User::get_diff_sum_rank($sum) . ' th';
-
+                $rank = User::calculate_rank($sum) . ' th';
                 
                 $contests_info = $atcoder_api_con->get_contests_each_user($id);
                 $contests_info = array_filter($contests_info, function($contest)

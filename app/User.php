@@ -17,7 +17,12 @@ class User extends Model
         'diff_sum',
     ];
 
-    public static function get_diff_sum_rank($diff_sum)
+    public function get_rank()    
+    {
+        return self::where('diff_sum', '>', $this->diff_sum)->count()+1;
+    }
+
+    public static function calculate_rank($diff_sum)
     {
         return self::where('diff_sum', '>', $diff_sum)->count()+1;
     }

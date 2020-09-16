@@ -15,7 +15,7 @@ if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
 }
 
 Route::get('/', function() { return redirect('home'); });
-Route::get('/home', 'PagesController@home') -> name('home');
-Route::post('/home', 'PagesController@user') -> name('show');
+Route::any('/home', 'PagesController@home') -> name('home');
 Route::get('/ranking', 'PagesController@ranking') -> name('ranking');
+Route::post('/ranking', 'PagesController@ranking') -> name('ranking');
 Route::get('/contact', 'PagesController@contact') -> name('contact');
