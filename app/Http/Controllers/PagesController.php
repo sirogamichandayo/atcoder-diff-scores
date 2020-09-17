@@ -13,15 +13,14 @@ class PagesController extends Controller
     public function home(Request $request)
     {
         if ($request->has('raw_ids'))
-        {
             $raw_ids = $request->raw_ids;
-        }
-
-        if ($request->hasCookie('raw_ids') && $raw_ids == '')
-            $raw_ids = $request->cookie('raw_ids');
-
+        
         $id_array = preg_split("/[\s,]+/", $raw_ids);
         $id_array = array_unique($id_array);
+
+        $id_array = array_filter($id_array, function($id) {
+            return ($id != '');
+        });
         
         // $sum_diff_by_date_by_id := [ [id => [date => diff_sum, ...]] , ...]
         // $diff_info := [ ["id" => id, "sum" => sum, "rank" => rank], ...]
@@ -43,7 +42,6 @@ class PagesController extends Controller
         ];
 
         $response = new Response(view('pages.home', $data));
-        $response->cookie('raw_ids', $raw_ids, 100);
         return $response;
     }
 
@@ -82,7 +80,6 @@ class PagesController extends Controller
 
         foreach($id_array as &$id)
         {
-            if ($id == '') continue;
             list($diff_by_date_by_id[$id], $diff_info[], $rate_by_date_by_id[$id]) = 
             (function() use ($atcoder_api_con, $diff_of_problems, $id)
             {
