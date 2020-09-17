@@ -23,7 +23,6 @@
     <hr size=1>
     <div class="row">
         @foreach($sum_data as $d)
-        @if ($d['id'] != '')
         <div class="col-md-3 text-center">    
             <h6>{{ $d['id'] }}</h6>
             <h3>{{ $d['sum'] }}</h3>
@@ -31,7 +30,6 @@
                 {{ $d['rank'] }}
             </h6>
         </div>
-        @endif
         @endforeach
     </div>
 

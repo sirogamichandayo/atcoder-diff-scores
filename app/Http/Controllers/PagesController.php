@@ -23,16 +23,15 @@ class PagesController extends Controller
         $id_array = preg_split("/[\s,]+/", $raw_ids);
         $id_array = array_unique($id_array);
         
-        // $sum_diff_by_date_by_id := [[id => [date => diff_sum, ...]], ...]
-        // $diff_info := [["id" => id, "sum" => sum, "rank" => rank], ...]
-        // $rate_by_date_by_id := [["id" => [date => rate, ...]], ...]
+        // $sum_diff_by_date_by_id := [ [id => [date => diff_sum, ...]] , ...]
+        // $diff_info := [ ["id" => id, "sum" => sum, "rank" => rank], ...]
+        // $rate_by_date_by_id := [ ["id" => [date => rate, ...]], ...]
         list( $sum_diff_by_date_by_id, $user_diff_info, $rate_by_date_by_id)
             = self::get_diff_and_rate($id_array);
 
         $graph_diff_data = self::get_diff_graph_data($sum_diff_by_date_by_id);
         $graph_rate_data = self::get_rate_graph_data($rate_by_date_by_id);
 
-        // For color        
         $graph_data = [];
         for ($i = 0; $i < sizeof($graph_diff_data); $i++)
             array_push($graph_data, $graph_rate_data[$i], $graph_diff_data[$i]);
@@ -53,11 +52,11 @@ class PagesController extends Controller
         $id = $request->id;
         if ($request->has('id') && $id != "")
         {
-            $users = User::where('user_id', 'ilike', '%'.$id.'%')->paginate(10);
+            $users = User::where('user_id', 'ilike', '%'.$id.'%')->paginate(20);
         }
         else
         {
-            $users = User::orderBy('diff_sum', 'desc')->paginate(10);
+            $users = User::orderBy('diff_sum', 'desc')->paginate(20);
         }
         $request->session()->flash('_old_input', ['id' => $id]);
 
@@ -83,6 +82,7 @@ class PagesController extends Controller
 
         foreach($id_array as &$id)
         {
+            if ($id == '') continue;
             list($diff_by_date_by_id[$id], $diff_info[], $rate_by_date_by_id[$id]) = 
             (function() use ($atcoder_api_con, $diff_of_problems, $id)
             {
