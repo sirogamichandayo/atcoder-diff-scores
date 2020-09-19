@@ -43,45 +43,12 @@ class AtCoderApiController extends Controller
         return  $res;
     }
     
-    public function get_test_data_for_update_diff_sum()
-    {
-        $submissions = [
-        [
-            "problem_id"=>"problem1",
-            "user_id"=>"sirogamichandayo",
-            "result"=>"AC",
-        ],
-        [
-            "problem_id"=>"problem2",
-            "user_id"=>"sirogamichandayo",
-            "result"=>"AC",
-        ],
-        [
-            "problem_id"=>"problem3",
-            "user_id"=>"sirogamichandayo",
-            "result"=>"WA",
-        ],
-        [
-            "problem_id"=>"problem4",
-            "user_id"=>"kurogamichandayo",
-            "result"=>"AC",
-        ]];
-        
-        $diff_of_problem = [
-            "problem1" => ["difficulty"=> 100], 
-            "problem2"=> ["difficulty"=> 200], 
-            "problem3"=> ["difficulty"=> 300], 
-            "problem4"=> ["difficulty"=> 400],
-        ];
-
-        return [$submissions, $diff_of_problem];
-    }
-    
     public function get_diff_of_problems()    
     {
         $client = new Client();
         $res = $client->request("GET", self::DIFF_OF_THE_PROBLEMS_URL, [
             'headers' => ['Accept-Encoding' => 'gzip'],
+            'delay' => AtCoderApiController::DELAY,
         ]);
         $res = json_decode($res->getBody(), true);
 

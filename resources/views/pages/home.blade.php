@@ -25,7 +25,7 @@
         @foreach($sum_data as $d)
         <div class="col-md-3 text-center">    
             <h6>{{ $d['id'] }}</h6>
-            <h3>{{ $d['sum'] }}</h3>
+            <h3>{{ number_format($d['sum']) }}</h3>
             <h6 class="text-muted">
                 {{ $d['rank'] }}
             </h6>

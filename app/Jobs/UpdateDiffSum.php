@@ -14,15 +14,15 @@ class UpdateDiffSum implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $tries = 5;    
-    public $user_id;
+    public $user_ids;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user_id)
+    public function __construct($user_ids)
     {
-        $this->user_id = $user_id;
+        $this->user_ids = $user_ids;
     }
 
     /**
@@ -33,6 +33,9 @@ class UpdateDiffSum implements ShouldQueue
     public function handle()
     {
         //
-        User::update_diff_sum_by_id($this->user_id);
+        foreach ($this->user_ids as $id)
+        {
+            User::update_diff_sum_by_id($id);
+        }
     }
 }

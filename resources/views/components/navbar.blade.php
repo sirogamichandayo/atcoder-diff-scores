@@ -4,5 +4,6 @@
     <ul class="navbar-nav">
         <a class="nav-item nav-link" href="{{route('ranking')}}">ランキング</a>    
         <a class="nav-item nav-link" href="{{route('contact')}}">問い合わせ</a>
+        <a class="nav-item nav-link" href="{{route('api_info')}}">API</a>
     </ul>
 </nav>

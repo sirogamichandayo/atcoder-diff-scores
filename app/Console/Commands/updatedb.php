@@ -45,11 +45,18 @@ class updatedb extends Command
     {   
         $con = new AtCoderApiController();
         $user_list = $con->get_user_list();        
+        $size = sizeof($user_list);
 
-        foreach ($user_list as $user_id)
+        for($left = 0; $left < $size; $left+=20)        
         {
-            echo "id : " .  $user_id . "\n";
-            UpdateDiffSum::dispatch($user_id);
+            $length = 20;    
+            $tmp = array_slice($user_list, $left, $length);
+
+            foreach($tmp as $user_id)
+            {
+                echo "id : " . $user_id . "\n";
+            }
+            UpdateDiffSum::dispatch($tmp);
         }
     }
 }
