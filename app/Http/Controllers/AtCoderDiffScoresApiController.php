@@ -85,6 +85,7 @@ class AtCoderDiffScoresApiController extends Controller
         foreach ($data as $date => $diff)
             $res[] = ['date' => $date, 'difficulty_sum' => $diff];
 
+        $res = json_encode($res);
         return response($res, 200)
                     ->header('Content-Type', 'application/json')
                     ->header('Content-Length',  strlen($res));
