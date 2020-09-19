@@ -1,4 +1,5 @@
 <?php
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,3 +23,6 @@ Route::get('/contact', 'PagesController@contact') -> name('contact');
 Route::get('/api/info', 'PagesController@api_info') -> name('api_info');
 Route::get('/api/resources/diff_per_date', 
         'AtCoderDiffScoresApiController@diff_per_date') -> name('api_diff_per_date');
+Route::get('/api/resources/diff_sum', function() {
+    return App\User::all();    
+});
