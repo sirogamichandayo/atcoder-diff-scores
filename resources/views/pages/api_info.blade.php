@@ -30,7 +30,7 @@
     </li></ul>
 
     <h5>Diff sum</h5>
-    <p>ユーザ毎のdiffの合計です。</p>
+    <p>ユーザ毎のdiffの合計です。大体一週間に一回更新してます。</p>
     <ul><li>
         <a href="{{$request->getUriForPath('') . '/api/resources/diff_sum'}}">
         {{$request->getUriForPath('') . '/api/resources/diff_sum'}}    
