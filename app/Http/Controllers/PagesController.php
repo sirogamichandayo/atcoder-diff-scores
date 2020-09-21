@@ -35,7 +35,8 @@ class PagesController extends Controller
 
             $sum_data = [];    
             $sum_data['id'] = $id;
-            $sum_data['sum'] = end($tmp['data'])['y'];
+            $sum = end($tmp['data']['y']);
+            $sum_data['sum'] = ($sum) ? $sum : 0;
             $sum_data['rank'] = User::calculate_rank($sum_data['sum']) . ' th';
             $sum_datas[] = $sum_data;
         }
