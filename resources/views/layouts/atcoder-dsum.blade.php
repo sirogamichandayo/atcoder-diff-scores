@@ -19,13 +19,13 @@
     @endif
     
     <!-- Custom fonts for this template -->
-    @if(app('env') == 'local')
+    {{--  @if(app('env') == 'local')
         <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
         <link href="{{ asset('vendor/simple-line-icons/css/simple-line-icons.css') }}" rel="stylesheet" type="text/css">
     @else
         <link href="{{ secure_asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
         <link href="{{ secure_asset('vendor/simple-line-icons/css/simple-line-icons.css') }}" rel="stylesheet" type="text/css">
-    @endif
+    @endif  --}}
 
     <!-- Custom styles for this template -->
     @if(app('env') == 'local')
@@ -64,6 +64,5 @@
             margin-top: 45px;margin-bottom: 45px;margin-right: auto;">
             @yield('content')
         </div>
-
     </body>
 </html>
