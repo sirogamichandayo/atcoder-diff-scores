@@ -19,7 +19,7 @@ class AtCoderDiffScoresApiController extends Controller
         {
             return $submissions['result'] == 'AC';
         });
-        
+
         $submission_map = []; // [problem_id => first_ac_submission, ...];
         foreach ($ac_submissions as $submission)
         {
@@ -36,19 +36,31 @@ class AtCoderDiffScoresApiController extends Controller
             }
         }
 
+        foreach ($submission_map as $key => $submission)        
+        {
+            $date = date('Y-m-d', $submission['epoch_second']);
+            $submission_map[$key]['epoch_date'] = strtotime($date);
+        }
+
         $sum_each_date = [];
         foreach ($submission_map as $problem_id => $submission)
         {
-            $date = date('Y-m-d', $submission['epoch_second']);
+            $date = $submission['epoch_date'];
             $sum_date = array_key_exists($date, $sum_each_date) ? $sum_each_date[$date] : 0;
             $problem = Problems::where('problem_id', $problem_id);
             if ($problem->exists())
                 $sum_date += $problem->first()->difficulty;
             $sum_each_date[$date] = $sum_date;
         }
-
         ksort($sum_each_date);
-        return $sum_each_date;                        
+
+        $res = [];
+        foreach($sum_each_date as $date => $sum)        
+        {
+            $res[date('Y-m-d', $date)] = $sum;
+        }
+        
+        return $res;                        
     }
 
     public function get_sum($id)    
