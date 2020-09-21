@@ -13,9 +13,9 @@
 
     <!-- Bootstrap core CSS -->
     @if(app('env') == 'local')
-        <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+        <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     @else
-        <link href="{{ secure_asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+        <link href="{{ secure_asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     @endif
     
     <!-- Custom fonts for this template -->
