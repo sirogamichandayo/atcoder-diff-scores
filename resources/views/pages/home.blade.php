@@ -22,9 +22,15 @@
     <h1>Diff Sums</h1>
     <hr size=1>
     <div class="row">
-        @foreach($sum_data as $d)
+        @foreach($sum_datas as $d)
         <div class="col-md-3 text-center">    
-            <h6>{{ $d['id'] }}</h6>
+            <h5>
+                @include('components.topCoderLikeCircle', 
+                    ['color' => $d['color'], 'fillRatio' => $d['fillRatio']] )
+                <a style="color: {{ $d['color'] }}">
+                {{ $d['id'] }}
+                </a>
+            </h5>
             <h3>{{ number_format($d['sum']) }}</h3>
             <h6 class="text-muted">
                 {{ $d['rank'] }}

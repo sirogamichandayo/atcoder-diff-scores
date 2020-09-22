@@ -29,16 +29,22 @@ class PagesController extends Controller
         $diff_api_con = new AtCoderDiffScoresApiController();
         foreach ($id_array as $id)
         {
-            $tmp = self::get_diff_graph_data($id);
-            $diff_graph_data[] = $tmp;
-            $rate_graph_data[] = self::get_rate_graph_data($id);
+            $tmp_diff_graph = self::get_diff_graph_data($id);
+            $diff_graph_data[] = $tmp_diff_graph;
+            $tmp_rate_graph = self::get_rate_graph_data($id);
+            $rate_graph_data[] = $tmp_rate_graph;
 
             $sum_data = [];    
             $sum_data['id'] = $id;
             
-            $sum = end($tmp['data'])['y'];
+            $sum = end($tmp_diff_graph['data'])['y'];
             $sum_data['sum'] = ($sum) ? $sum : 0;
-            $sum_data['rank'] = User::calculate_rank($sum_data['sum']) . ' th';
+            $sum_data['rank'] = User::calculate_rank($sum) . ' th';
+
+            $rate = end($tmp_rate_graph['data'])['y'];
+            $sum_data['fillRatio'] = $rate >= 3200 ? 1.0 : ($rate % 400) / 400;
+            $sum_data['color'] = self::get_rate_color($rate);
+
             $sum_datas[] = $sum_data;
         }
 
@@ -48,7 +54,7 @@ class PagesController extends Controller
 
         $request->session()->flash('_old_input', ['raw_ids' => $raw_ids]);            
         $data = [
-            'sum_data' => $sum_datas,
+            'sum_datas' => $sum_datas,
             'graph_data' => ['datasets' => $graph_data],
         ];
 
@@ -87,6 +93,23 @@ class PagesController extends Controller
 // private
 //////////////////////////////
 
+    private function get_rate_color($rate)
+    {
+        $rateColors = [
+            "Black",
+            "Grey",
+            "Brown",
+            "Green",
+            "Cyan",
+            "Blue",
+            "Yellow",
+            "Orange",
+            "Red",
+        ];
+        $ind = min(floor($rate / 400), count($rateColors) - 2);
+        
+        return $rateColors[$ind+1];
+    }
 
     private function get_diff_graph_data($id)    
     {

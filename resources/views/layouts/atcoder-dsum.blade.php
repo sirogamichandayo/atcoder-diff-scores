@@ -49,7 +49,16 @@
         padding: 2px;
         font-size: 105%;
       }
-      </style>
+
+    .topcoder-like-circle {
+        display: inline-block;
+        border-radius: 50%;
+        border-style: solid;
+        border-width: 1px;
+        width: 18px;
+        height: 18px;
+    }
+    </style>
 
 
     </head>
