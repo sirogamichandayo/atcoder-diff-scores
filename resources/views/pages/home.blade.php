@@ -27,9 +27,9 @@
             <h5>
                 @include('components.topCoderLikeCircle', 
                     ['color' => $d['color'], 'fillRatio' => $d['fillRatio']] )
-                <a style="color: {{ $d['color'] }}">
+                <span style="color: {{ $d['color'] }}">
                 {{ $d['id'] }}
-                </a>
+                </span>
             </h5>
             <h3>{{ number_format($d['sum']) }}</h3>
             <h6 class="text-muted">
