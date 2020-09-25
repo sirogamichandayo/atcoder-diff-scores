@@ -23,12 +23,14 @@ class AtCoderDiffScoresApiController extends Controller
         $submission_map = []; // [problem_id => first_ac_submission, ...];
         foreach ($ac_submissions as $submission)
         {
-            $sub_id = $submission['id'];
-            if (array_key_exists($sub_id, $submission_map))
+            $sub_problem_id = $submission['problem_id'];
+            if ( isset($submission_map[$sub_problem_id]) )
             {
-                $first_ac_submission = $submission_map[$sub_id];
-                if ($early_ac_submission['id'] > $sub_id)
+                $first_ac_submission = $submission_map[$sub_problem_id];
+                if ($first_ac_submission['id'] > $submission['id'])
+                {
                     $submission_map[$submission['problem_id']] = $submission;
+                }
             }
             else
             {
@@ -42,13 +44,16 @@ class AtCoderDiffScoresApiController extends Controller
             $submission_map[$key]['epoch_date'] = strtotime($date);
         }
 
+        $submission_key = array_keys($submission_map);
+        $problems = Problems::whereIn('problem_id', $submission_key)->select(array('problem_id', 'difficulty'))->get();
+
         $sum_each_date = [];
         foreach ($submission_map as $problem_id => $submission)
         {
             $date = $submission['epoch_date'];
-            $sum_date = array_key_exists($date, $sum_each_date) ? $sum_each_date[$date] : 0;
-            $problem = Problems::where('problem_id', $problem_id);
-            if ($problem->exists())
+            $sum_date = isset($sum_each_date[$date]) ? $sum_each_date[$date] : 0;
+            $problem = $problems->where('problem_id', $problem_id);
+            if (isset($problem) && isset($problem->first()->difficulty))
                 $sum_date += $problem->first()->difficulty;
             $sum_each_date[$date] = $sum_date;
         }
