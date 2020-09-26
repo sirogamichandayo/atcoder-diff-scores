@@ -28,44 +28,37 @@ class AtCoderDiffScoresApiController extends Controller
             {
                 $first_ac_submission = $submission_map[$sub_problem_id];
                 if ($first_ac_submission['id'] > $submission['id'])
-                {
-                    $submission_map[$submission['problem_id']] = $submission;
-                }
+                    $submission_map[$sub_problem_id] = $submission;
             }
             else
             {
-                $submission_map[$submission['problem_id']] = $submission;
+                $submission_map[$sub_problem_id] = $submission;
             }
         }
 
-        foreach ($submission_map as $key => $submission)        
+        $submission_map = collect( $submission_map )->map( function($submission)
         {
-            $date = date('Y-m-d', $submission['epoch_second']);
-            $submission_map[$key]['epoch_date'] = strtotime($date);
-        }
-
-        $submission_key = array_keys($submission_map);
-        $problems = Problems::whereIn('problem_id', $submission_key)->select(array('problem_id', 'difficulty'))->get();
-
-        $sum_each_date = [];
-        foreach ($submission_map as $problem_id => $submission)
-        {
-            $date = $submission['epoch_date'];
-            $sum_date = isset($sum_each_date[$date]) ? $sum_each_date[$date] : 0;
-            $problem = $problems->where('problem_id', $problem_id);
-            if (isset($problem) && isset($problem->first()->difficulty))
-                $sum_date += $problem->first()->difficulty;
-            $sum_each_date[$date] = $sum_date;
-        }
-        ksort($sum_each_date);
-
-        $res = [];
-        foreach($sum_each_date as $date => $sum)        
-        {
-            $res[date('Y-m-d', $date)] = $sum;
-        }
+            $submission['epoch_date'] = strtotime( date('Y-m-d', $submission['epoch_second']));
+            return $submission;            
+        });
         
-        return $res;                        
+        $submission_key = array_keys($submission_map->toArray());
+        $diff_of_problems = Problems::whereIn('problem_id', $submission_key)->select(array('problem_id', 'difficulty'))->get();
+        $sum_each_date = $submission_map->groupBy('epoch_date')->mapWithKeys(function ($problems, $date) use ($diff_of_problems)
+        {
+            $solved_diff_of_problems = $diff_of_problems->whereIn('problem_id', array_column($problems->toArray(), 'problem_id'));
+            $sum = $solved_diff_of_problems->sum( function ($problem)
+            {
+                return (isset($problem) && isset($problem->difficulty)) ? $problem->difficulty : 0;
+            });
+            return [$date => $sum];
+        });
+        $sum_each_date = $sum_each_date->sortKeys();
+
+        return collect( $sum_each_date )->keyBy(function ($sum, $date)
+        {
+            return date('Y-m-d', $date);    
+        });
     }
 
     public function get_sum($id)    
