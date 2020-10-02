@@ -54,7 +54,7 @@ class AtCoderApiController extends Controller
 
         return array_map(function($model)
         {
-            $model['difficulty'] =  is_set($model['difficulty']) ?
+            $model['difficulty'] =  isset($model['difficulty']) ?
                                     clip_difficulty($model['difficulty']) : 0;
             return $model;
         }, $res);
